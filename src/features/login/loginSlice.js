@@ -43,7 +43,14 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     addToken: (state, action) => {
-        state.token = localStorage.getItem('token')
+        state.token = localStorage.getItem('token');
+    },
+    addUser: (state, action) => {
+        state.user = localStorage.getItem('user');
+    },
+    logOut: (state, action) => {
+        state.token = null;
+        localStorage.clear();
     }
   },
   extraReducers: {
@@ -51,13 +58,20 @@ export const userSlice = createSlice({
     [signInUser.pending] : (state,action) => {
         state.loading = true     
      },
-     [signInUser.fulfilled] : (state,{payload: {error,msg}}) => {
+     [signInUser.fulfilled] : (state,{payload: {error,msg, token, user}}) => {
          state.loading = false 
          if (error) {
-            state.error = error 
+            state.error = error;
          } else {
-             state.msg = msg
-         }   
+            state.msg = msg;
+            state.token = token;
+            state.user = user;
+
+            localStorage.setItem ('msg', msg)
+            localStorage.setItem ('user', JSON.stringify(user))
+            localStorage.setItem ('token', token)
+            
+         }
       },
       [signInUser.rejected] : (state,action) => {
          state.loading = true     
@@ -82,6 +96,6 @@ export const userSlice = createSlice({
 })
 
 
-export const {  } = userSlice.actions
+export const {addToken, addUser, logOut } = userSlice.actions
 
 export default userSlice.reducer

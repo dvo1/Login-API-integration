@@ -1,6 +1,6 @@
 import React from 'react'
 import { useState } from 'react'
-import {signInUser} from '../features/login/loginSlice'
+import {logOut, signInUser} from '../features/login/loginSlice'
 import { useDispatch, useSelector } from 'react-redux'
 
 const Login = () => {
@@ -21,6 +21,10 @@ const Login = () => {
         console.log(email,password)
         dispatch(signInUser({  email, password }))
     }
+
+    const logOutHandle = () => {
+        dispatch(logOut())
+    }
     return (
         <div>
             <div className="register-container">
@@ -32,7 +36,8 @@ const Login = () => {
                     <input type="email" placeholder='Email' value={email} onChange={emailHandle} />
                     <label htmlFor="">Password</label>
                     <input type="password" placeholder='Password' value={password} onChange={passwordHandle} />
-                    <button className='sub-btn' onClick={handleLogin}>Register</button>
+                    <button className='sub-btn' onClick={handleLogin}>Login</button>
+                    <button className='sub-btn' onClick={logOutHandle}>LogOut</button>
 
                 </div>
             </div>
