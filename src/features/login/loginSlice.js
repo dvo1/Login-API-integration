@@ -47,6 +47,23 @@ export const userSlice = createSlice({
     }
   },
   extraReducers: {
+    //**************Login*************** */
+    [signInUser.pending] : (state,action) => {
+        state.loading = true     
+     },
+     [signInUser.fulfilled] : (state,{payload: {error,msg}}) => {
+         state.loading = false 
+         if (error) {
+            state.error = error 
+         } else {
+             state.msg = msg
+         }   
+      },
+      [signInUser.rejected] : (state,action) => {
+         state.loading = true     
+      },
+
+    //   ***********Sign in***************
     [signUpUser.pending] : (state,action) => {
        state.loading = true     
     },
